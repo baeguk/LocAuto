@@ -4,6 +4,7 @@ using Locacoes.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Locacoes.Migrations
 {
     [DbContext(typeof(LocacoesContext))]
-    partial class LocacoesContextModelSnapshot : ModelSnapshot
+    [Migration("20240930224413_locacao")]
+    partial class locacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,33 +152,6 @@ namespace Locacoes.Migrations
                     b.ToTable("Veiculos");
                 });
 
-            modelBuilder.Entity("Locacoes.Models.VeiculoLocado", b =>
-                {
-                    b.Property<int>("LocacaoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VeiculoId")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly>("DataDevolucao")
-                        .HasColumnType("date");
-
-                    b.Property<long>("KilometragemFinal")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("KilometragemInicial")
-                        .HasColumnType("bigint");
-
-                    b.Property<decimal>("ValorDiaria")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("LocacaoId", "VeiculoId");
-
-                    b.HasIndex("VeiculoId");
-
-                    b.ToTable("VeiculoLocados");
-                });
-
             modelBuilder.Entity("Locacoes.Models.Locacao", b =>
                 {
                     b.HasOne("Locacoes.Models.Cliente", "Cliente")
@@ -207,30 +183,6 @@ namespace Locacoes.Migrations
                         .IsRequired();
 
                     b.Navigation("Modelo");
-                });
-
-            modelBuilder.Entity("Locacoes.Models.VeiculoLocado", b =>
-                {
-                    b.HasOne("Locacoes.Models.Locacao", "Locacao")
-                        .WithMany("VeiculosLocados")
-                        .HasForeignKey("LocacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Locacoes.Models.Veiculo", "Veiculo")
-                        .WithMany()
-                        .HasForeignKey("VeiculoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Locacao");
-
-                    b.Navigation("Veiculo");
-                });
-
-            modelBuilder.Entity("Locacoes.Models.Locacao", b =>
-                {
-                    b.Navigation("VeiculosLocados");
                 });
 #pragma warning restore 612, 618
         }
